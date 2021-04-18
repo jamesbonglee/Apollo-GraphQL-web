@@ -48,6 +48,15 @@ const Loading = styled.div`
    margin-top: 10px;
 `;
 
+const Moives = styled.div`
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   grid-gap: 25px;
+   width: 60%;
+   position: relative;
+   top: -40px;
+`;
+
 // 그래프ql가져와서 useQuery사용하여 데이터 가져오기 gql쿼리문은  GET_MOVIES 에 작성
 // map이용하여 id 가져오기
 export default () => {
@@ -59,7 +68,13 @@ export default () => {
             <Subtitle>I love GraphQL</Subtitle>
          </Header>
          {loading && <Loading>Loading...</Loading>}
-         {!loading && data.movies && data.movies.map((m) => <Movie key={m.id} id={m.id} />)}
+         {!loading && data.movies && (
+            <Moives>
+               {data.movies.map((m) => (
+                  <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+               ))}
+            </Moives>
+         )}
       </Container>
    );
 };
