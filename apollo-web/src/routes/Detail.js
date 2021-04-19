@@ -37,12 +37,13 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.h4`
-   font-size: 35px;
+   font-size: 25px;
    margin-bottom: 10px;
 `;
 
 const Description = styled.p`
-   font-size: 28px;
+   font-size: 24px;
+   line-height: 25px;
 `;
 
 const Poster = styled.div`
@@ -55,18 +56,20 @@ const Poster = styled.div`
 `;
 
 export default () => {
-   const { id } = useParams();
+   let { id } = useParams();
+   id = parseInt(id);
    const { loading, data } = useQuery(GET_MOVIE, {
       variables: { id },
    });
+   console.log(data);
    return (
       <Container>
          <Column>
-            <Title>{loading ? "Loading..." : data.movie.title}</Title>
+            <Title>{loading ? "loading...." : data.movie.title}</Title>
             {!loading && data.movie && (
                <>
                   <Subtitle>
-                     {data.movie.language} · {data.movie.rating}
+                     {data.movie.language} {data.movie.rating}
                   </Subtitle>
                   <Description>{data.movie.description_intro}</Description>
                </>
