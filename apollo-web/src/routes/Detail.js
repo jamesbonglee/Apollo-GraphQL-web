@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
+import Suggest from "../components/Suggest";
 
 const GET_MOVIE = gql`
    query getMovie($id: Int!) {
@@ -12,6 +13,12 @@ const GET_MOVIE = gql`
          language
          rating
          description_intro
+      }
+      suggestions(id: $id) {
+         id
+         rating
+         title
+         medium_cover_image
       }
    }
 `;
@@ -23,6 +30,7 @@ const Container = styled.div`
    display: flex;
    justify-content: space-around;
    align-items: center;
+   flex-wrap: wrap;
    color: white;
 `;
 
@@ -55,6 +63,11 @@ const Poster = styled.div`
    background-position: center center;
 `;
 
+const Suggestions = styled.div`
+   dispaly: flex;
+   width: 10%;
+`;
+
 export default () => {
    let { id } = useParams();
    id = parseInt(id);
@@ -73,6 +86,11 @@ export default () => {
             <Description>{data?.movie?.description_intro}</Description>
          </Column>
          <Poster bg={data?.movie?.medium_cover_image}></Poster>
+         <Suggestions>
+            {data?.suggestions?.map((m) => (
+               <Suggest key={m.id} id={m.id} bg={m.medium_cover_image} />
+            ))}
+         </Suggestions>
       </Container>
    );
 };
