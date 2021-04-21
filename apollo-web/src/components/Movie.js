@@ -7,8 +7,8 @@ import { useMutation } from "@apollo/react-hooks";
 // 리액트에선 a태그를 사용하지않음 그래서 LINK사용
 
 const LIKE_MOVIE = gql`
-   mutation likeMovie($id: Int!) {
-      likeMovie(id: $id) @client
+   mutation toggleLikeMovie($id: Int!, $isLiked: Boolean!) {
+      toggleLikeMovie(id: $id, isLiked: $isLiked) @client
    }
 `;
 
@@ -29,15 +29,15 @@ const Poster = styled.div`
 `;
 
 export default ({ id, bg, isLiked }) => {
-   const [likeMovie] = useMutation(LIKE_MOVIE, {
-      variables: { id: parseInt(id) },
+   const [toggleMovie] = useMutation(LIKE_MOVIE, {
+      variables: { id: parseInt(id), isLiked },
    });
    return (
       <Container>
          <Link to={`/${id}`}>
             <Poster bg={bg} />
          </Link>
-         <button onClick={isLiked ? null : likeMovie}>{isLiked ? "Unlike" : "Like"}</button>
+         <button onClick={toggleMovie}>{isLiked ? "Unlike" : "Like"}</button>
       </Container>
    );
 };
